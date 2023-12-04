@@ -3,6 +3,7 @@ package com.example.Core;
 import com.example.Entities.Account;
 import com.example.Entities.Condition;
 import com.example.Entities.Encounter;
+import com.example.Entities.UserType;
 import com.example.View.ViewModels.SearchResult;
 import com.example.View.ViewModels.SearchCriteria;
 import io.smallrye.mutiny.Uni;
@@ -64,24 +65,59 @@ public class SearchService {
     private Set<SearchResult> processAccounts(List<Account> accounts, SearchCriteria criteria) {
         return accounts.stream()
                 .filter(a -> matchesCriteria(a, criteria))
-                .map(a -> new SearchResult("account", a.getFirstName() + " " + a.getLastName(), "Account", "2022-12-20"))
+                .map(a -> new SearchResult("Account", a.getFirstName() + " " + a.getLastName(), findKeyMatch(a,criteria), "2022-12-20"))
                 .collect(Collectors.toSet());
     }
 
     private Set<SearchResult> processConditions(List<Condition> conditions, SearchCriteria criteria) {
         return conditions.stream()
                 .filter(c-> matchesCriteria(c, criteria))
-                .map(c -> new SearchResult("condition", c.getDiagnosis(), "Condition", c.getTimestamp().toString()))
+                .map(c -> new SearchResult("Condition", c.getDiagnosis(), findKeyMatch(c,criteria), c.getTimestamp().toString()))
                 .collect(Collectors.toSet());
     }
 
     private Set<SearchResult> processEncounters(List<Encounter> encounters, SearchCriteria criteria) {
         return encounters.stream()
                 .filter(e-> matchesCriteria(e, criteria))
-                .map(e -> new SearchResult("encounter", e.getTitle(), "Encounter", e.getTimestamp().toString()))
+                .map(e -> new SearchResult("Encounter", e.getTitle(), findKeyMatch(e,criteria), e.getTimestamp().toString()))
                 .collect(Collectors.toSet());
     }
 
+
+    private String findKeyMatch(Account e, SearchCriteria criteria){
+        if(e.getLastName().equals(criteria.getEmail()) )
+            if(e.getUserType() == UserType.PATIENT)
+                return "Patient has lastname";
+            else
+                return "Doctor has lastname";
+        if(e.getFirstName().equals(criteria.getEmail()))
+            if(e.getUserType() == UserType.PATIENT)
+                return "Patient has firstname";
+            else
+                return "Doctor has firstname";
+        else
+        if(e.getUserType() == UserType.PATIENT)
+            return "Patient has email";
+        else
+            return "Doctor has email";
+    }
+
+    private String findKeyMatch(Encounter e, SearchCriteria criteria){
+        if(e.getPatientEmail().equals(criteria.getEmail()) )
+            return "Encounter has patient email";
+        if(e.getDoctorEmail().equals(criteria.getEmail()))
+            return "Encounter has doctor email";
+        else
+            return "Encounter title";
+    }
+    private String findKeyMatch(Condition e, SearchCriteria criteria){
+        if(e.getPatientEmail().equals(criteria.getEmail()) )
+            return "Patient has condition";
+        if(e.getDoctorEmail().equals(criteria.getEmail()))
+            return "Condition is written by doctor";
+        else
+            return "Condition title";
+    }
 
     private boolean matchesCriteria(Account a, SearchCriteria criteria) {
         return a.getEmail().equals(criteria.getEmail()) ||
