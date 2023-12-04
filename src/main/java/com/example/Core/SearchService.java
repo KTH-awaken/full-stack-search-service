@@ -65,21 +65,21 @@ public class SearchService {
     private Set<SearchResult> processAccounts(List<Account> accounts, SearchCriteria criteria) {
         return accounts.stream()
                 .filter(a -> matchesCriteria(a, criteria))
-                .map(a -> new SearchResult("Account", a.getFirstName() + " " + a.getLastName(), findKeyMatch(a,criteria), "2022-12-20"))
+                .map(a -> new SearchResult(a.id,"Account", a.getFirstName() + " " + a.getLastName(), findKeyMatch(a,criteria), "2022-12-20"))
                 .collect(Collectors.toSet());
     }
 
     private Set<SearchResult> processConditions(List<Condition> conditions, SearchCriteria criteria) {
         return conditions.stream()
                 .filter(c-> matchesCriteria(c, criteria))
-                .map(c -> new SearchResult("Condition", c.getDiagnosis(), findKeyMatch(c,criteria), c.getTimestamp().toString()))
+                .map(c -> new SearchResult(c.id,"Condition", c.getDiagnosis(), findKeyMatch(c,criteria), c.getTimestamp().toString()))
                 .collect(Collectors.toSet());
     }
 
     private Set<SearchResult> processEncounters(List<Encounter> encounters, SearchCriteria criteria) {
         return encounters.stream()
                 .filter(e-> matchesCriteria(e, criteria))
-                .map(e -> new SearchResult("Encounter", e.getTitle(), findKeyMatch(e,criteria), e.getTimestamp().toString()))
+                .map(e -> new SearchResult(e.id,"Encounter", e.getTitle(), findKeyMatch(e,criteria), e.getTimestamp().toString()))
                 .collect(Collectors.toSet());
     }
 

@@ -10,23 +10,16 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "conditions")
-public class Condition extends PanacheEntityBase {
+public class Condition extends PanacheEntity{
 
-    @Id
-    private long id;
+
     private String patientEmail;
     private String doctorEmail;
     private String diagnosis;
     private LocalDateTime timestamp;
 
 
-    public long getId() {
-        return id;
-    }
 
-    public void setId(long id) {
-        this.id = id;
-    }
 
     public String getPatientEmail() {
         return patientEmail;

@@ -7,10 +7,10 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "account")
-public class Account extends PanacheEntityBase {
+public class Account extends PanacheEntity {
 
 
-    @Id
+
     private String email;
     private String firstName;
     private String lastName;

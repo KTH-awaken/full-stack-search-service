@@ -11,10 +11,9 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "encounter")
-public class Encounter extends PanacheEntityBase {
+public class Encounter extends PanacheEntity {
 
-    @Id
-    private long id;
+
     private String patientEmail;
     private String doctorEmail;
     private LocalDateTime date;
@@ -24,13 +23,7 @@ public class Encounter extends PanacheEntityBase {
     private String description;
 
 
-    public long getId() {
-        return id;
-    }
 
-    public void setId(long id) {
-        this.id = id;
-    }
 
     public String getPatientEmail() {
         return patientEmail;

@@ -3,6 +3,7 @@ package com.example.View.ViewModels;
 import java.util.Objects;
 
 public class SearchResult {
+    private long id;
     private String type;
     private String title;
     private String matchKey;
@@ -11,11 +12,20 @@ public class SearchResult {
     public SearchResult() {
     }
 
-    public SearchResult(String type, String title, String matchKey, String createdAt) {
+    public SearchResult(long id, String type, String title, String matchKey, String createdAt) {
+        this.id = id;
         this.type = type;
         this.title = title;
         this.matchKey = matchKey;
         this.createdAt = createdAt;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getType() {
