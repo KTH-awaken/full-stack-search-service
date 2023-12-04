@@ -1,19 +1,24 @@
 package com.example.Entities;
 
-import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
-import jakarta.persistence.*;
+import io.quarkus.hibernate.reactive.panache.PanacheEntity;
+import io.quarkus.hibernate.reactive.panache.PanacheEntityBase;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "conditions")
 public class Condition extends PanacheEntityBase {
+
     @Id
     private long id;
     private String patientEmail;
     private String doctorEmail;
     private String diagnosis;
     private LocalDateTime timestamp;
+
 
     public long getId() {
         return id;

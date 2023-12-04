@@ -1,6 +1,7 @@
 package com.example.Entities;
 
-import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
+import io.quarkus.hibernate.reactive.panache.PanacheEntity;
+import io.quarkus.hibernate.reactive.panache.PanacheEntityBase;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -11,8 +12,9 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "encounter")
 public class Encounter extends PanacheEntityBase {
+
     @Id
-    private Long id;
+    private long id;
     private String patientEmail;
     private String doctorEmail;
     private LocalDateTime date;
@@ -21,11 +23,12 @@ public class Encounter extends PanacheEntityBase {
     private String title;
     private String description;
 
-    public Long getId() {
+
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 

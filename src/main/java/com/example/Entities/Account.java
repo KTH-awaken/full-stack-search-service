@@ -1,12 +1,14 @@
 package com.example.Entities;
 
-import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
+import io.quarkus.hibernate.reactive.panache.PanacheEntity;
+import io.quarkus.hibernate.reactive.panache.PanacheEntityBase;
 import jakarta.persistence.*;
 
 
 @Entity
 @Table(name = "account")
 public class Account extends PanacheEntityBase {
+
 
     @Id
     private String email;
