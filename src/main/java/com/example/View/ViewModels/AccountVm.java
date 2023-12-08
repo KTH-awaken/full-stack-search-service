@@ -1,17 +1,17 @@
-package com.example.View.DTOs;
+package com.example.View.ViewModels;
 
 import com.example.Entities.UserType;
 
-public class AccountDTO {
+public class AccountVm {
     private String firstName;
     private String lastName;
     private String email;
     private UserType userType;
 
 
-    public AccountDTO(){}
+    public AccountVm(){}
 
-    public AccountDTO(String firstName, String lastName, String email, UserType userType) {
+    public AccountVm(String firstName, String lastName, String email, UserType userType) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
