@@ -63,8 +63,7 @@ public class SearchService {
                                                                                 a.getLastName().equals(criteria.getLastName()))
                                                                         .map(Account::getEmail)
                                                                         .collect(Collectors.toSet());
-
-                                                                        return searchWithEmails(emails, criteria)
+                                                                        return searchWithEmails(emails)
                                                                                 .onItem().transform(emailSearchResults -> {
                                                                                     results.addAll(emailSearchResults);
                                                                                     return new ArrayList<>(results);
@@ -78,7 +77,7 @@ public class SearchService {
         );
     }
 
-    private Uni<List<SearchResult>> searchWithEmails(Set<String> emails, SearchCriteria criteria) {
+    private Uni<List<SearchResult>> searchWithEmails(Set<String> emails) {
         Set<SearchResult> results = new HashSet<>();
 
         return Condition.listAll()
@@ -89,9 +88,10 @@ public class SearchService {
                             .map(c -> (Condition) c)
                             .filter(c -> emails.contains(c.getPatientEmail()) || emails.contains(c.getDoctorEmail()))
                             .toList();
-
+                    String em = emails.stream().findFirst().orElse(null);
+                    SearchCriteria criteria = new SearchCriteria(em,em,em,em,em);
                     results.addAll(processConditions(conditions, criteria));
-
+                    System.out.println(emails);
                     // Process encounters
                     return Encounter.listAll()
                             .onItem().transformToUni(enctrs -> {
@@ -100,7 +100,6 @@ public class SearchService {
                                         .map(e -> (Encounter) e)
                                         .filter(e -> emails.contains(e.getPatientEmail()) || emails.contains(e.getDoctorEmail()))
                                         .toList();
-
                                 results.addAll(processEncounters(encounters, criteria));
                                 return Uni.createFrom().item(new ArrayList<>(results));
                             });
@@ -149,17 +148,17 @@ public class SearchService {
 
     private String findKeyMatch(Encounter e, SearchCriteria criteria){
         if(e.getPatientEmail().equals(criteria.getEmail()) )
-            return "Encounter has patient email";
+            return "Encounter has patient";
         if(e.getDoctorEmail().equals(criteria.getEmail()))
-            return "Encounter has doctor email";
+            return "Encounter has doctor";
         else
             return "Encounter title";
     }
     private String findKeyMatch(Condition e, SearchCriteria criteria){
         if(e.getPatientEmail().equals(criteria.getEmail()) )
-            return "Condition has patient email";
+            return "Condition has patient";
         if(e.getDoctorEmail().equals(criteria.getEmail()))
-            return "Condition is written by doctor with email";
+            return "Condition is written by doctor";
         else
             return "Condition title";
     }
