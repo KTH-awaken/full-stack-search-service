@@ -19,14 +19,14 @@ import java.util.logging.Logger;
 
 
 @ApplicationScoped
-@Path("/search")
+@Path("/")
 public class SearchResource {
 
     @Inject
     SearchService searchService;
 
     @GET
-    @Path("/find/{criteria}")
+    @Path("search/find/{criteria}")
     @RolesAllowed({"DOCTOR", "EMPLOYEE"})
     @Produces(MediaType.APPLICATION_JSON)
     public Uni<List<SearchResult>> search(@PathParam("criteria") String criteria) {
@@ -37,17 +37,17 @@ public class SearchResource {
     }
 
     @GET
-    @Path("/find")
+    @Path("search/find")
     @Produces(MediaType.APPLICATION_JSON)
     public ArrayList<SearchResult> find() {
         return new ArrayList<>();
     }
 
     @GET
-    @Path("/test")
+    @Path("health")
     @Produces(MediaType.TEXT_PLAIN)
     public String search() {
-        return "test";
+        return "ok";
     }
 
 
